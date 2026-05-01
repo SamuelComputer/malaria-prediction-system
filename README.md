@@ -7,7 +7,7 @@ Built with Streamlit and trained using ensemble machine learning models includin
 ---
 
 ## Live Demo
-malaria-prediction-system.streamlit.app/
+malaria-prediction-system.streamlit.app
 
 ---
 
