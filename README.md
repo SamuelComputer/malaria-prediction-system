@@ -130,7 +130,7 @@ Malaria_Prediction_Project/
 
 ### 1. Clone repository
 ```bash
-git clone https://github.com/your-username/malaria-prediction.git
+git clone https://github.com/SamuelComputer/malaria-prediction.git
 cd malaria-prediction
 
 
