@@ -1,0 +1,1 @@
+"""malaria-prediction-system package."""
