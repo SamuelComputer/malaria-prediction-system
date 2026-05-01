@@ -102,7 +102,7 @@ Predict expected malaria cases for a given period.
 
 
 ## Project Structure
-
+```
 Malaria_Prediction_Project/
 │
 ├── data_set/
@@ -124,6 +124,7 @@ Malaria_Prediction_Project/
 │
 ├── requirements.txt
 └── README.md
+```
 
 
 ##  How to Run Locally
