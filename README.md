@@ -88,13 +88,13 @@ Predict expected malaria cases for a given period.
 
 ## Tech Stack
 
-- Python 🐍
-- Streamlit 🎈
-- Pandas & NumPy 📊
-- Scikit-learn 🤖
-- XGBoost ⚡
-- Matplotlib & Seaborn 📈
-- Joblib 💾
+- Python 
+- Streamlit 
+- Pandas & NumPy 
+- Scikit-learn 
+- XGBoost 
+- Matplotlib & Seaborn 
+- Joblib 
 
 ---
 
