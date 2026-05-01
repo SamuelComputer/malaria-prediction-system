@@ -32,8 +32,8 @@ st.sidebar.markdown("""
 Predict malaria cases in Nigerian LGAs.
 
 **Links:**
-- [📂 GitHub Repository](https://github.com/SamuelComputer/malaria-prediction-system/tree/main)
-- [💼 LinkedIn](https://www.linkedin.com/in/sunday-iyanu-samuel)
+- [GitHub Repository](https://github.com/SamuelComputer/malaria-prediction-system/tree/main)
+- [Sunday Iyanu Samuel](https://www.linkedin.com/in/sunday-iyanu-samuel)
 """)
 
 # ─────────────────────────────────────────────
@@ -244,6 +244,6 @@ if predict_button:
 st.markdown("---")
 st.markdown("""
 <div style='text-align: center'>
-    <small>🦟 Malaria Prediction App | Built with Streamlit | Dataset: Africa Synth Malaria (CC BY 4.0)</small>
+    <small>🦟 Malaria Prediction App | Built by Sunday Iyanu Samuel< small>
 </div>
 """, unsafe_allow_html=True)
