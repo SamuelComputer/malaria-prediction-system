@@ -3,7 +3,6 @@ import pandas as pd
 import joblib
 import numpy as np
 import os
-import plotly.graph_objects as go
 
 # ─────────────────────────────────────────────
 # PAGE CONFIGURATION
@@ -28,32 +27,13 @@ features_path = os.path.join(MODEL_DIR, "feature_names.pkl")
 # ─────────────────────────────────────────────
 # SIDEBAR
 # ─────────────────────────────────────────────
-st.sidebar.title("ℹ️ About")
+st.sidebar.title("🦟 Malaria Prediction App")
 st.sidebar.markdown("""
-### Malaria Prediction System
+Predict malaria cases in Nigerian LGAs.
 
-**Dataset:** Africa Synth Malaria Dataset
-
-**License:** CC BY 4.0
-
-**Model:** XGBoost Regressor
-
-**Model Performance**
-- R² Score: 0.801
-- Test RMSE: 6,064
-- Test MAE: 2,995
-
-**Key Drivers:**
-1. Geographic location (state/LGA)
-2. Rainfall amount
-3. Vegetation index
-4. Intervention status
-
-**Seasonal Pattern:**
-- Peak: April–October (Rainy)
-- Low: November–March (Dry)
-
-**Purpose:** Predict malaria burden in Nigerian LGAs to support resource planning and intervention strategies.
+**Links:**
+- [📂 GitHub Repository](https://github.com/SamuelComputer/malaria-prediction-system/tree/main)
+- [💼 LinkedIn](https://www.linkedin.com/in/sunday-iyanu-samuel)
 """)
 
 # ─────────────────────────────────────────────
@@ -119,7 +99,6 @@ with col1:
 
     selected_state = st.selectbox("Select State", states)
 
-    # Filter LGAs by selected state
     state_lgas = [lga for lga in lgas if lga.startswith(selected_state)]
     selected_lga = st.selectbox("Select LGA", state_lgas)
 
@@ -154,13 +133,11 @@ predict_button = st.button("🔮 Predict Malaria Cases", type="primary")
 if predict_button:
 
     try:
-        # Create input dataframe with correct columns
         input_data = pd.DataFrame(
             np.zeros((1, len(all_features))),
             columns=all_features
         )
 
-        # Fill numerical features
         if "year" in input_data.columns:
             input_data["year"] = year
         if "month" in input_data.columns:
@@ -180,7 +157,6 @@ if predict_button:
         if "season_Rainy" in input_data.columns:
             input_data["season_Rainy"] = 1 if season == "Rainy" else 0
 
-        # One-hot encode state and LGA
         state_col = f"state_{selected_state}"
         lga_col = f"lga_{selected_lga}"
 
@@ -189,7 +165,6 @@ if predict_button:
         if lga_col in input_data.columns:
             input_data[lga_col] = 1
 
-        # Scale and predict
         input_scaled = scaler.transform(input_data)
         prediction = model.predict(input_scaled)[0]
 
@@ -234,71 +209,6 @@ if predict_button:
             st.write(f"**Recommendation:** {recommendation}")
 
         # ─────────────────────────────────────────
-        # MONTHLY FORECAST CHART
-        # ─────────────────────────────────────────
-        st.markdown("---")
-        st.subheader("📈 Monthly Case Forecast")
-
-        months_num = list(range(1, 13))
-        months_names = list(month_mapping.keys())
-        predictions_by_month = []
-
-        for m in months_num:
-            pred_data = input_data.copy()
-            pred_data["month"] = m
-            if "season_Rainy" in pred_data.columns:
-                pred_data["season_Rainy"] = 1 if m in [4, 5, 6, 7, 8, 9, 10] else 0
-            pred_scaled = scaler.transform(pred_data)
-            pred_val = model.predict(pred_scaled)[0]
-            predictions_by_month.append(pred_val)
-
-        fig1 = go.Figure()
-        fig1.add_trace(go.Scatter(
-            x=months_names,
-            y=predictions_by_month,
-            mode='lines+markers',
-            line=dict(color='red', width=2),
-            marker=dict(size=8),
-            fill='tozeroy',
-            fillcolor='rgba(255,0,0,0.1)'
-        ))
-        fig1.update_layout(
-            title=f'Predicted Malaria Cases by Month — {selected_state}, {selected_lga}',
-            xaxis_title='Month',
-            yaxis_title='Predicted Cases',
-            hovermode='x unified'
-        )
-        st.plotly_chart(fig1, use_container_width=True)
-
-        # ─────────────────────────────────────────
-        # RAINFALL PATTERN CHART
-        # ─────────────────────────────────────────
-        st.subheader("🌧️ Rainfall Pattern by Month")
-
-        rainfall_by_month = []
-        for m in months_num:
-            if m in [4, 5, 6, 7, 8, 9, 10]:
-                rainfall_by_month.append(300 + np.random.randint(-50, 50))
-            else:
-                rainfall_by_month.append(100 + np.random.randint(-30, 30))
-
-        colors = ['#ff9999' if m in [4, 5, 6, 7, 8, 9, 10] else '#87ceeb' for m in months_num]
-
-        fig2 = go.Figure()
-        fig2.add_trace(go.Bar(
-            x=months_names,
-            y=rainfall_by_month,
-            marker_color=colors,
-            name='Rainfall'
-        ))
-        fig2.update_layout(
-            title='Rainfall Pattern by Month (🔴 Rainy | 🔵 Dry)',
-            xaxis_title='Month',
-            yaxis_title='Rainfall (mm)'
-        )
-        st.plotly_chart(fig2, use_container_width=True)
-
-        # ─────────────────────────────────────────
         # PREDICTION REPORT TABLE
         # ─────────────────────────────────────────
         st.markdown("---")
@@ -322,15 +232,6 @@ if predict_button:
         })
 
         st.dataframe(report_df, use_container_width=True, hide_index=True)
-
-        st.markdown("""
-        ---
-        **Key Insights:**
-        - Peak cases typically occur during **rainy season (April–October)**
-        - **Rainfall** is the strongest environmental driver (correlation: 0.57)
-        - **Interventions** can reduce predicted cases significantly
-        - **Delta, Cross River and Benue** LGAs have the highest historical burden
-        """)
 
     except Exception as e:
         st.error(f"❌ Prediction Error: {e}")
