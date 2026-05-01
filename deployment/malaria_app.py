@@ -244,6 +244,6 @@ if predict_button:
 st.markdown("---")
 st.markdown("""
 <div style='text-align: center'>
-    <small>🦟 Malaria Prediction App | Built by Sunday Iyanu Samuel< small>
+    <small>🦟 Malaria Prediction App | Built by Sunday Iyanu Samuel </small>
 </div>
 """, unsafe_allow_html=True)
